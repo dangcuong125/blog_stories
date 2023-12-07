@@ -13,7 +13,7 @@ async function bootstrap() {
   );
 
   app.enableCors({ origin: '*', credentials: true });
-  app.setGlobalPrefix('api');
+  // app.setGlobalPrefix('api');
 
   const config = new DocumentBuilder()
     .setTitle('Project API')
@@ -23,7 +23,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('/api/swagger', app, document, {
+  SwaggerModule.setup('/swagger', app, document, {
     swaggerOptions: {
       persistAuthorization: true,
     },
