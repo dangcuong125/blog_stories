@@ -1,0 +1,22 @@
+{
+  "word": {
+    "notFound": "không tìm thấy",
+    "file": "tệp",
+    "user": "người dùng",
+    "password": "mật khẩu",
+    "invalid": "không hợp lệ"
+  },
+  "exc": {
+    "badRequest": "Dữ liệu không hợp lệ",
+    "notFound": "Không tìm thấy {name}",
+    "internalServerError": "Hệ thống có lỗi",
+    "forbidden": "Bạn không có quyền để sử dụng dịch vụ này",
+    "unauthorized": "Bạn cần đăng nhập để sử dụng dịch vụ này",
+    "conflict": "{name} đã tồn tại",
+    "expectationFailed": "Có lỗi xảy ra, vui lòng liên hệ hỗ trợ",
+    "serviceUnavailable": "Dịch vụ tạm thời không khả dụng"
+  },
+  "validationError": {
+    "date": "Ngày không hợp lệ"
+  }
+}
