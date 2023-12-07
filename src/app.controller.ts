@@ -8,6 +8,6 @@ export class AppController {
   @Get()
   // @AuthenticateCustomer()
   getHello() {
-    return 'hello';
+    return 'trigger build 1';
   }
 }
