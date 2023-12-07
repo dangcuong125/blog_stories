@@ -1,4 +1,3 @@
-import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { Module, OnModuleInit, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_PIPE, ModuleRef } from '@nestjs/core';
@@ -25,17 +24,16 @@ import firebaseAdmin from 'firebase-admin';
 import { dataSource } from '../data-source';
 import { AuthModule } from './auth/auth.module';
 import globalConfig, { GlobalConfig } from './common/config/global.config';
-import { redisConfig } from './common/config/redis.config';
 import { TIME_ZONE } from './common/constants/global.constant';
 import { AppEnvironment } from './common/enums/app.enum';
 import { AllExceptionsFilter } from './common/filters/all.filter';
-import { UtilsModule } from './utils/utils.module';
 import { FileModule } from './file/file.module';
+import { UtilsModule } from './utils/utils.module';
 
 @Module({
   imports: [
     // BullModule.forRootAsync(bullConfig),
-    RedisModule.forRootAsync(redisConfig),
+    // RedisModule.forRootAsync(redisConfig),
     EventEmitterModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
