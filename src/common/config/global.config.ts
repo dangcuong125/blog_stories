@@ -60,6 +60,7 @@ const globalConfig = {
     privateKey: process.env.FIREBASE_PRIVATE_KEY,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
     projectId: process.env.FIREBASE_PROJECT_ID,
+    bucketStorage: process.env.BUCKET_STORAGE,
   },
 };
 

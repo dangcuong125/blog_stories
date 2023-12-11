@@ -17,6 +17,9 @@ export class RegisterCustomerReqDto {
   @IsEmail({}, { message: 'auth.customer.invalidEmail' as I18nPath })
   email: string;
 
-  @IsValidText({ minLength: 6, message: 'auth.customer.invalidPassword' })
-  password: string;
+  @IsValidText({ required: false })
+  picture?: string;
+
+  @IsValidText({ required: false })
+  name?: string;
 }

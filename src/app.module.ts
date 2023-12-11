@@ -29,6 +29,7 @@ import { AppEnvironment } from './common/enums/app.enum';
 import { AllExceptionsFilter } from './common/filters/all.filter';
 import { FileModule } from './file/file.module';
 import { UtilsModule } from './utils/utils.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -60,6 +61,7 @@ import { UtilsModule } from './utils/utils.module';
     UtilsModule,
     AuthModule,
     FileModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [
@@ -94,6 +96,7 @@ export class AppModule implements OnModuleInit {
         clientEmail: this.configService.get('firebase.clientEmail'),
         projectId: this.configService.get('firebase.projectId'),
       } as Partial<firebaseAdmin.ServiceAccount>),
+      storageBucket: this.configService.get('firebase.bucketStorage'),
     });
 
     const isLocalOrTest = [AppEnvironment.LOCAL, AppEnvironment.TEST].includes(
