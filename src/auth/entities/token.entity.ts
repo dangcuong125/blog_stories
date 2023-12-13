@@ -16,8 +16,8 @@ export class Token extends BaseEntity {
   @Column({ name: 'device_token' })
   deviceToken: string;
 
-  @Column({ name: 'fir_id' })
-  firId: string;
+  @Column({ name: 'user_id' })
+  userId: number;
 
   @ManyToOne(() => User, (user) => user.tokens)
   @JoinColumn({ name: 'user_id' })

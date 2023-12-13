@@ -3,11 +3,16 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Transactional } from 'typeorm-transactional';
 import { GlobalConfig } from '../../../common/config/global.config';
+import { NotFoundExc } from '../../../common/exceptions/custom.exception';
+import { FileRepository } from '../../../file/repositories/file.repository';
 import { EncryptService } from '../../../utils/services/encrypt.service';
+import { AuthTokenResDto } from '../../dtos/common/res/auth-token.res.dto';
 import {
   CustomerLoginReqDto,
   RegisterCustomerReqDto,
 } from '../../dtos/customer/req/auth.customer.req.dto';
+import { JwtAuthPayload } from '../../interfaces/jwt-payload.interface';
+import { TokenRepository } from '../../repositories/token.repository';
 import { UserRepository } from '../../repositories/user.repository';
 import { AuthCommonService } from '../common/auth.common.service';
 
@@ -19,38 +24,70 @@ export class AuthCustomerService {
     private encryptService: EncryptService,
     private authCommonService: AuthCommonService,
     private configService: ConfigService<GlobalConfig>,
+    private tokenRepository: TokenRepository,
+    private fileRepo: FileRepository,
   ) {}
+
+  @Transactional()
   async login(dto: CustomerLoginReqDto) {
-    // const { email, password } = dto;
-    // const customer = await this.customerRepo
-    //   .createQueryBuilder('customer')
-    //   .addSelect('customer.password')
-    //   .innerJoinAndSelect('customer.user', 'user')
-    //   .where('customer.email = :email', { email })
-    //   .getOne();
-    // if (!customer)
-    //   throw new NotFoundExc({ message: 'auth.customer.customerNotFound' });
-    // if (!bcrypt.compareSync(password, customer.password))
-    //   throw new UnauthorizedExc({ message: 'auth.common.wrongOldPassword' });
-    // const payload: JwtAuthPayload = { userId: customer.userId };
-    // const accessToken = this.authCommonService.generateAccessToken(payload);
-    // const refreshToken = this.authCommonService.generateRefreshToken(payload);
-    // return AuthTokenResDto.forCustomer({ data: { accessToken, refreshToken } });
+    const { email, deviceToken, firId } = dto;
+    const user = await this.userRepo.findOne({
+      where: {
+        email,
+        firId,
+      },
+    });
+    if (!user)
+      throw new NotFoundExc({ message: 'auth.customer.customerNotFound' });
+
+    const tokens = await this.tokenRepository.findBy({
+      userId: user.id,
+      deviceToken: deviceToken,
+    });
+    if (!tokens.length) {
+      await this.tokenRepository.save({
+        userId: user.id,
+        deviceToken,
+      });
+    }
+    const payload: JwtAuthPayload = { userId: user.id };
+    const accessToken = this.authCommonService.generateAccessToken(payload);
+    const refreshToken = this.authCommonService.generateRefreshToken(payload);
+    return AuthTokenResDto.forCustomer({ data: { accessToken, refreshToken } });
   }
 
   @Transactional()
   async register(dto: RegisterCustomerReqDto) {
-    // const { email, password } = dto;
-    // const existedCustomer = await this.customerRepo.findOneBy({ email });
-    // if (existedCustomer)
-    //   throw new NotFoundExc({ message: 'auth.customer.customerExits' });
-    // const user = await this.userRepo.save({ type: UserType.CUSTOMER });
-    // const customer = this.customerRepo.create({
-    //   email,
-    //   password: this.encryptService.encryptText(password),
-    //   user,
-    // });
-    // await this.customerRepo.save(customer);
-    // return CustomerResDto.forCustomer({ data: customer });
+    const { deviceToken, email, firId, avatar, name } = dto;
+    const user = await this.userRepo.findOneBy({
+      email,
+      firId,
+    });
+    if (user) throw new NotFoundExc({ message: 'auth.customer.customerExits' });
+
+    const file = await this.fileRepo.save({
+      url: avatar,
+    });
+
+    const userCreated = await this.userRepo.save({
+      name,
+      avatarId: file.id,
+      email,
+      firId,
+    });
+    file.userId = userCreated.id;
+
+    await Promise.all([
+      this.fileRepo.save(file),
+      this.tokenRepository.save({
+        deviceToken,
+        userId: userCreated.id,
+      }),
+    ]);
+
+    const payload: JwtAuthPayload = { userId: userCreated.id };
+    const accessToken = this.authCommonService.generateAccessToken(payload);
+    const refreshToken = this.authCommonService.generateRefreshToken(payload);
+    return AuthTokenResDto.forCustomer({ data: { accessToken, refreshToken } });
   }
 }

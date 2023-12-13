@@ -16,6 +16,9 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ name: 'fir_id' })
+  firId: string;
+
   @Column({ length: 255 })
   email: string;
 

@@ -16,7 +16,7 @@ export class File extends BaseEntity {
   @Column({ name: 'url' })
   url: string;
 
-  @Column({ name: 'user_id' })
+  @Column({ name: 'user_id', nullable: true })
   userId: number;
 
   @ManyToOne(() => User, (user) => user.files)

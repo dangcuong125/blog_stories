@@ -6,11 +6,11 @@ export class CustomerLoginReqDto {
   @IsEmail({}, { message: 'auth.customer.invalidEmail' as I18nPath })
   email: string;
 
-  @IsValidText({
-    minLength: 6,
-    message: ['common.word.password', 'common.word.invalid'],
-  })
-  password: string;
+  @IsValidText()
+  firId: string;
+
+  @IsValidText()
+  deviceToken: string;
 }
 
 export class RegisterCustomerReqDto {
@@ -18,8 +18,14 @@ export class RegisterCustomerReqDto {
   email: string;
 
   @IsValidText({ required: false })
-  picture?: string;
+  avatar?: string;
 
   @IsValidText({ required: false })
   name?: string;
+
+  @IsValidText()
+  firId: string;
+
+  @IsValidText()
+  deviceToken: string;
 }
