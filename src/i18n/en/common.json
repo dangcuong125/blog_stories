@@ -5,7 +5,11 @@
     "user": "người dùng",
     "password": "mật khẩu",
     "invalid": "không hợp lệ",
-    "token": "token"
+    "token": "token",
+    "notification": "thông báo",
+    "post": "bài đăng",
+    "favoritePost": "favoritePost",
+    "commentPost": "commentPost"
   },
   "exc": {
     "badRequest": "Invalid Data",

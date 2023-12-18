@@ -30,6 +30,9 @@ import { AllExceptionsFilter } from './common/filters/all.filter';
 import { FileModule } from './file/file.module';
 import { UtilsModule } from './utils/utils.module';
 import { NotificationModule } from './notification/notification.module';
+import { PostModule } from './post/post.module';
+import { FavoritePostModule } from './favorite-post/favorite-post.module';
+import { CommentPostModule } from './comment-post/comment-post.module';
 
 @Module({
   imports: [
@@ -62,6 +65,9 @@ import { NotificationModule } from './notification/notification.module';
     AuthModule,
     FileModule,
     NotificationModule,
+    PostModule,
+    FavoritePostModule,
+    CommentPostModule,
   ],
   controllers: [AppController],
   providers: [

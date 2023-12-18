@@ -23,6 +23,10 @@ export type I18nTranslations = {
             "password": string;
             "invalid": string;
             "token": string;
+            "notification": string;
+            "post": string;
+            "favoritePost": string;
+            "commentPost": string;
         };
         "exc": {
             "badRequest": string;
@@ -37,6 +41,10 @@ export type I18nTranslations = {
         "validationError": {
             "date": string;
         };
+    };
+    "post": {
+        "imagesInvalid": string;
+        "postNotFound": string;
     };
     "test": {
         "params": string;

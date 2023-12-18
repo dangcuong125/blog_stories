@@ -6,8 +6,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { CommentPost } from '../../comment-post/entities/comment-post.entity';
 import { BaseEntity } from '../../common/entities/base.entity';
+import { FavoritePost } from '../../favorite-post/entities/favorite-post.entity';
 import { File } from '../../file/entities/file.entity';
+import { Post } from '../../post/entities/post.entity';
 import { CustomerGender } from '../enums/customer.enum';
 import { Token } from './token.entity';
 
@@ -40,7 +43,16 @@ export class User extends BaseEntity {
   @Column({ name: 'avatar_id', nullable: true })
   avatarId: number;
 
+  @OneToMany(() => Post, (post) => post.user)
+  post: Post[];
+
   @ManyToOne(() => File)
   @JoinColumn({ name: 'avatar_id' })
   avatar: File;
+
+  @OneToMany(() => FavoritePost, (favoritePost) => favoritePost.user)
+  favoritePosts: FavoritePost[];
+
+  @OneToMany(() => CommentPost, (commentPost) => commentPost.user)
+  commentPost: CommentPost[];
 }

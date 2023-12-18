@@ -59,6 +59,7 @@ export class AuthCustomerService {
   @Transactional()
   async register(dto: RegisterCustomerReqDto) {
     const { deviceToken, email, firId, avatar, name } = dto;
+    console.log(dto);
     const user = await this.userRepo.findOneBy({
       email,
       firId,

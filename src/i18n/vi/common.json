@@ -4,7 +4,11 @@
     "file": "tệp",
     "user": "người dùng",
     "password": "mật khẩu",
-    "invalid": "không hợp lệ"
+    "invalid": "không hợp lệ",
+    "notification": "thông báo",
+    "post": "bài đăng",
+    "favoritePost": "favoritePost",
+    "commentPost": "commentPost"
   },
   "exc": {
     "badRequest": "Dữ liệu không hợp lệ",
