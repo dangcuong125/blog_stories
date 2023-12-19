@@ -3,6 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { PrefixType } from '../../../common/constants/global.constant';
 import {
   CustomerLoginReqDto,
+  RefreshTokenDto,
   RegisterCustomerReqDto,
 } from '../../dtos/customer/req/auth.customer.req.dto';
 import { AuthCustomerService } from '../../services/customer/auth.customer.service';
@@ -20,5 +21,10 @@ export class AuthCustomerController {
   @Post('register')
   register(@Body() body: RegisterCustomerReqDto) {
     return this.authCustomerService.register(body);
+  }
+
+  @Post('refresh-token')
+  refresh(@Body() body: RefreshTokenDto) {
+    return this.authCustomerService.refreshToken(body);
   }
 }

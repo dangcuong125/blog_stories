@@ -9,6 +9,7 @@ import { EncryptService } from '../../../utils/services/encrypt.service';
 import { AuthTokenResDto } from '../../dtos/common/res/auth-token.res.dto';
 import {
   CustomerLoginReqDto,
+  RefreshTokenDto,
   RegisterCustomerReqDto,
 } from '../../dtos/customer/req/auth.customer.req.dto';
 import { JwtAuthPayload } from '../../interfaces/jwt-payload.interface';
@@ -89,6 +90,18 @@ export class AuthCustomerService {
     const payload: JwtAuthPayload = { userId: userCreated.id };
     const accessToken = this.authCommonService.generateAccessToken(payload);
     const refreshToken = this.authCommonService.generateRefreshToken(payload);
+    return AuthTokenResDto.forCustomer({ data: { accessToken, refreshToken } });
+  }
+
+  async refreshToken(body: RefreshTokenDto) {
+    const { refreshToken } = body;
+    const payload = this.jwtService.verify<JwtAuthPayload>(refreshToken, {
+      secret: this.configService.get('auth.refreshToken.secret'),
+    });
+    const accessToken = this.authCommonService.generateAccessToken({
+      userId: payload.userId,
+    });
+
     return AuthTokenResDto.forCustomer({ data: { accessToken, refreshToken } });
   }
 }

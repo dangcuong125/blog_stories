@@ -29,3 +29,8 @@ export class RegisterCustomerReqDto {
   @IsValidText()
   deviceToken: string;
 }
+
+export class RefreshTokenDto {
+  @IsValidText()
+  refreshToken: string;
+}
