@@ -48,6 +48,10 @@ export class FileService {
     });
     const images = await Promise.all(res);
 
-    return Promise.all(images);
+    const result = await Promise.all(images);
+
+    return {
+      images: result,
+    };
   }
 }
